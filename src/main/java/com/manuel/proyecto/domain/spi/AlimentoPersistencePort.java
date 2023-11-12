@@ -1,4 +1,4 @@
 package com.manuel.proyecto.domain.spi;
 
-public class AlimentoPersistencePort {
+public interface AlimentoPersistencePort {
 }

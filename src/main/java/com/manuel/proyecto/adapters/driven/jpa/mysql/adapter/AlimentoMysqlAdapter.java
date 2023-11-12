@@ -1,4 +1,6 @@
 package com.manuel.proyecto.adapters.driven.jpa.mysql.adapter;
 
-public class AlimentoMysqlAdapter {
+import com.manuel.proyecto.domain.spi.AlimentoPersistencePort;
+
+public class AlimentoMysqlAdapter implements AlimentoPersistencePort {
 }

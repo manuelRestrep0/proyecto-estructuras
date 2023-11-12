@@ -1,4 +1,6 @@
 package com.manuel.proyecto.adapters.driven.jpa.mysql.adapter;
 
-public class DiaMysqlAdapter {
+import com.manuel.proyecto.domain.spi.DiaPersistencePort;
+
+public class DiaMysqlAdapter implements DiaPersistencePort {
 }
