@@ -22,14 +22,17 @@ public class DiaUseCase {
     private Dia diaInput;
     private Usuario usuario;
 
-    /*public void calcularNuevoRecomendado(){
+    public void calcularNuevoRecomendado(){
         Optional<Dia> diaRecomendado = diasRecomendados.stream().filter(dia -> dia.getDia()==diaInput.getDia()).findFirst();
         if(diaRecomendado.isPresent()){
-            //ejecutar funciones.
+            calcularRecomendadoAguas(diaRecomendado.get());
+            calcularRecomendadoCarbos(diaRecomendado.get());
+            calcularRecomendadoGrasas(diaRecomendado.get());
+            calcularRecomendadoProteinas(diaRecomendado.get());
         }else{
-            //se acabo el mes.
+            System.out.println("Ya no puedes cumplir la meta.");
         }
-    }*/
+    }
     public void calcularRecomendadoAguas(Dia diaRecomendado) {
         float aguasRecomendado = diaRecomendado.getAguas();
         double diferencia = aguasRecomendado - diaInput.getAguas();
@@ -46,97 +49,39 @@ public class DiaUseCase {
     public void calcularRecomendadoGrasas(Dia diaRecomendado){
         float grasasRecomendado = diaRecomendado.getGrasas();
         double diferencia = grasasRecomendado - diaInput.getGrasas();
-        //TODO: recalcular el recomendado
         if (diferencia > 0) {
+            this.diasRecomendados = calcularDiferenciaSuperior(diaInput,diaRecomendado,diasRecomendados,
+                    Limites.limiteSuperiorGrasas(),"grasas");
         }
         if (diferencia < 0) {
+            this.diasRecomendados = CalcularDiferenciaInferior(diaInput,diaRecomendado,diasRecomendados,
+                    Limites.limiteInferiorGrasas(),"grasas");
         }
     }
     public void calcularRecomendadoProteinas(Dia diaRecomendado){
         float ProteinasRecomendado = diaRecomendado.getProteinas();
         double diferencia = ProteinasRecomendado - diaInput.getProteinas();
-        System.out.println(diferencia);
-        //TODO: recalcular el recomendado
         if (diferencia > 0) {
-            //diferencia = calcularDiferenciaSuperiorAguas(diaInput, diaRecomendado);
+            this.diasRecomendados = calcularDiferenciaSuperior(diaInput,diaRecomendado,diasRecomendados,
+                    Limites.limiteSuperiorProteina(usuario.getPeso()),"proteinas");
         }
         if (diferencia < 0) {
-            //diferencia = calcularDiferenciaInferiorAguas(diaInput, diaRecomendado);
+            this.diasRecomendados = CalcularDiferenciaInferior(diaInput,diaRecomendado,diasRecomendados,
+                    Limites.limiteInferiorProteina(usuario.getPeso()),"proteinas");
         }
     }
     public void calcularRecomendadoCarbos(Dia diaRecomendado){
         float CarbosRecomendado = diaRecomendado.getCarbos();
         double diferencia = CarbosRecomendado - diaInput.getCarbos();
-        System.out.println(diferencia);
-        //TODO: recalcular el recomendado
         if (diferencia > 0) {
-            //diferencia = calcularDiferenciaSuperiorAguas(diaInput, diaRecomendado);
+            this.diasRecomendados = calcularDiferenciaSuperior(diaInput,diaRecomendado,diasRecomendados,
+                    Limites.limiteSuperiorCarbos(),"carbos");
         }
         if (diferencia < 0) {
-            //diferencia = calcularDiferenciaInferiorAguas(diaInput, diaRecomendado);
+            this.diasRecomendados = CalcularDiferenciaInferior(diaInput,diaRecomendado,diasRecomendados,
+                    Limites.limiteInferiorCarbos(),"carbos");
         }
     }
-    private float calcularDiferenciaSuperiorAguas(Dia input, Dia recomendado) {
-        Dia dia = recomendado;
-        float diferencia = dia.getAguas() - input.getAguas();
-        float aguas = dia.getAguas();
-        int diaRecomendado = diasRecomendados.indexOf(dia);
-        while (diferencia != 0) {
-            //TODO: condicional para el dia final.
-            if(Limites.limiteSuperiorAgua(usuario.getPeso()) == dia.getAguas()){
-                if(diaRecomendado>=diasRecomendados.size()-1){
-                    System.out.println("no cumpliste");
-                    break;
-                }
-                dia = diasRecomendados.get(diaRecomendado + 1);
-                continue;
-            }
-            if (diferencia > (Limites.limiteSuperiorAgua(usuario.getPeso()) - dia.getAguas())) {
-                if(diaRecomendado>=diasRecomendados.size()-1){
-                    System.out.println("no cumpliste");
-                    break;
-                }
-                Dia siguienteDia = diasRecomendados.get(diaRecomendado + 1);
-                diferencia = diferencia - (Limites.limiteSuperiorAgua(usuario.getPeso()) - dia.getAguas());
-                siguienteDia.setAguas(Limites.limiteSuperiorAgua(usuario.getPeso()));
-                diasRecomendados.set(diaRecomendado + 1, siguienteDia);
-                dia = siguienteDia;
-                diaRecomendado += 1;
-            } else {
-                Dia siguienteDia = diasRecomendados.get(diaRecomendado + 1);
-                siguienteDia.setAguas(dia.getAguas() + diferencia);
-                diasRecomendados.set(diaRecomendado + 1, siguienteDia);
-                diferencia = 0;
-            }
-        }
-        return diferencia;
-    }
-    private float calcularDiferenciaInferiorAguas(Dia input, Dia recomendado) {
-        Dia dia = recomendado;
-        float diferencia = recomendado.getAguas() - input.getAguas();
-        int diaRecomendado = diasRecomendados.indexOf(recomendado);
-        while (diferencia != 0) {
-            if(Limites.limiteInferiorAgua(usuario.getPeso()) == dia.getAguas()){
-                dia = diasRecomendados.get(diaRecomendado + 1);
-                continue;
-            }
-            if (diferencia < (Limites.limiteInferiorAgua(usuario.getPeso()) - dia.getAguas())) {
-                Dia siguienteDia = diasRecomendados.get(diaRecomendado + 1);
-                diferencia = diferencia - (Limites.limiteInferiorAgua(usuario.getPeso()) - dia.getAguas());
-                siguienteDia.setAguas(Limites.limiteInferiorAgua(usuario.getPeso()));
-                diasRecomendados.set(diaRecomendado + 1, siguienteDia);
-                dia = siguienteDia;
-                diaRecomendado += 1;
-            } else {
-                Dia siguienteDia = diasRecomendados.get(diaRecomendado + 1);
-                siguienteDia.setAguas(dia.getAguas() + diferencia);
-                diasRecomendados.set(diaRecomendado + 1, siguienteDia);
-                diferencia = 0;
-            }
-        }
-        return diferencia;
-    }
-
     private List<Dia> calcularDiferenciaSuperior(Dia input,Dia recomendado,
                                              List<Dia> diasRecomendados,
                                              float limiteSuperior,
@@ -291,13 +236,16 @@ public class DiaUseCase {
         caso.setDiasRecomendados(dias);
         caso.setDiaInput(input);
         caso.setUsuario(user);
-        caso.calcularRecomendadoAguas(recomendado1);
+        caso.calcularNuevoRecomendado();
+        //caso.calcularRecomendadoAguas(recomendado1);
         input.setAguas(2700);
         caso.setDiaInput(input);
-        caso.calcularRecomendadoAguas(recomendado2);
+        caso.calcularNuevoRecomendado();
+        //caso.calcularRecomendadoAguas(recomendado2);
         input.setAguas(2800);
         caso.setDiaInput(input);
-        caso.calcularRecomendadoAguas(recomendado3);
+        caso.calcularNuevoRecomendado();
+        //caso.calcularRecomendadoAguas(recomendado3);
 
         System.out.println(dias.size());
         System.out.print("dia 1: ");
