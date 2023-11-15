@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Dia {
+    private int idDia;
     private int idUsuario;
     private int dia;
     private float aguas;

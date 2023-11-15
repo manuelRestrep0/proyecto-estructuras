@@ -2,20 +2,20 @@ package com.manuel.proyecto.domain.utilidades;
 
 public class Recomendado {
 
-    private float peso;
-    private float caloriasDiarias = 2000;
-    private final int agua = 35;
-    private final float proteina = 1.5F;
-    public double obtenerAguaRecomendada(){
+    //private static float peso;
+    private static float caloriasDiarias = 2000;
+    private static final int agua = 35;
+    private static final float proteina = 1.5F;
+    public static double obtenerAguaRecomendada(float peso){
         return agua*peso;
     }
-    public double obtenerProteinasRecomendada(){
+    public static double obtenerProteinasRecomendada(float peso){
         return proteina*peso;
     }
-    public double obtenerGrasasRecomendadas(){
+    public static double obtenerGrasasRecomendadas(){
         return 0.30*(caloriasDiarias/9);
     }
-    public double obtenerCarbosRecomendados(){
+    public static double obtenerCarbosRecomendados(){
         return 0.50*(caloriasDiarias/4);
     }
 }

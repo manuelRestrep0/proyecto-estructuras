@@ -1,26 +1,27 @@
 package com.manuel.proyecto.domain.usecase;
 
+import com.manuel.proyecto.domain.api.IDiaServicePort;
 import com.manuel.proyecto.domain.model.Dia;
 import com.manuel.proyecto.domain.model.Usuario;
+import com.manuel.proyecto.domain.spi.DiaPersistencePort;
 import com.manuel.proyecto.domain.utilidades.Limites;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.manuel.proyecto.domain.utilidades.Recomendado;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
-public class DiaUseCase {
+public class DiaUseCase implements IDiaServicePort {
 
     private List<Dia> diasRecomendados;
     private Dia diaInput;
     private Usuario usuario;
+    private final DiaPersistencePort diaPersistencePort;
 
     public void calcularNuevoRecomendado(){
         Optional<Dia> diaRecomendado = diasRecomendados.stream().filter(dia -> dia.getDia()==diaInput.getDia()).findFirst();
@@ -198,66 +199,25 @@ public class DiaUseCase {
             default: return dia;
         }
     }
-    public static void main(String[] args){
-        Usuario user = new Usuario();
-        user.setPeso(60);
-        Dia input = new Dia();
-        input.setDia(3);
-        input.setAguas(1405);
-        Dia recomendado1 = new Dia();
-        recomendado1.setDia(1);
-        recomendado1.setAguas(2100);
-        Dia recomendado2 = new Dia();
-        recomendado2.setDia(2);
-        recomendado2.setAguas(2100);
-        Dia recomendado3 = new Dia();
-        recomendado3.setDia(3);
-        recomendado3.setAguas(2100);
-        Dia recomendado4 = new Dia();
-        recomendado4.setDia(4);
-        recomendado4.setAguas(2100);
-        Dia recomendado5 = new Dia();
-        recomendado5.setDia(5);
-        recomendado5.setAguas(2100);
-        Dia recomendado6 = new Dia();
-        recomendado6.setDia(6);
-        recomendado6.setAguas(2100);
-
+    @Override
+    public void generarDiasRecomendados(int idUsuario, float peso) {
         List<Dia> dias = new ArrayList<>();
-        dias.add(recomendado1);
-        dias.add(recomendado2);
-        dias.add(recomendado3);
-        dias.add(recomendado4);
-        dias.add(recomendado5);
-        dias.add(recomendado6);
-
-
-        DiaUseCase caso = new DiaUseCase();
-        caso.setDiasRecomendados(dias);
-        caso.setDiaInput(input);
-        caso.setUsuario(user);
-        caso.calcularNuevoRecomendado();
-        //caso.calcularRecomendadoAguas(recomendado1);
-        input.setAguas(2700);
-        caso.setDiaInput(input);
-        caso.calcularNuevoRecomendado();
-        //caso.calcularRecomendadoAguas(recomendado2);
-        input.setAguas(2800);
-        caso.setDiaInput(input);
-        caso.calcularNuevoRecomendado();
-        //caso.calcularRecomendadoAguas(recomendado3);
-
-        System.out.println(dias.size());
-        System.out.print("dia 1: ");
-        System.out.println(caso.diasRecomendados.get(0).getAguas());
-        System.out.print("dia 2: ");
-        System.out.println(caso.diasRecomendados.get(1).getAguas());
-        System.out.print("dia 3: ");
-        System.out.println(caso.diasRecomendados.get(2).getAguas());
-        System.out.println(caso.diasRecomendados.get(3).getAguas());
-        System.out.println(caso.diasRecomendados.get(4).getAguas());
-        System.out.println(caso.diasRecomendados.get(5).getAguas());
-
-
+        for(int i=1;i<=30;i++){
+            Dia dia = new Dia();
+            dia.setDia(i);
+            dia.setIdUsuario(idUsuario);
+            dia.setEsRecomendado(true);
+            dia.setAguas((float) Recomendado.obtenerAguaRecomendada(peso));
+            dia.setCarbos((float)Recomendado.obtenerCarbosRecomendados());
+            dia.setGrasas((float)Recomendado.obtenerGrasasRecomendadas());
+            dia.setProteinas((float)Recomendado.obtenerProteinasRecomendada(peso));
+        }
+        guardarDiasRecomendados(dias);
+    }
+    private void guardarDiasRecomendados(List<Dia> diasRecomendados){
+        diaPersistencePort.guardarDiasRecomendados(diasRecomendados);
+    }
+    private List<Dia> obtenerDiasRecomendados(int idUsuario){
+        return diaPersistencePort.obtenerDiasRecomendados(idUsuario);
     }
 }
