@@ -15,9 +15,8 @@ public class AlimentoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nombre;
-    private String nombreCorto;
     private float aguas;
     private float grasas;
     private float carbos;
-    private float proteinas;
+    private float proteina;
 }

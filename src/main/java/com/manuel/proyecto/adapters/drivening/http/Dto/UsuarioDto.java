@@ -6,4 +6,5 @@ import lombok.Data;
 public class UsuarioDto {
     int idUsuario;
     float peso;
+    int mes;
 }

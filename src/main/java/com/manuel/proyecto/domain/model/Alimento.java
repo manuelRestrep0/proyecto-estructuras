@@ -10,8 +10,7 @@ import lombok.Setter;
 public class Alimento {
 
     private String nombre;
-    private String nombreCorto;
-    private float agua;
+    private float aguas;
     private float proteina;
     private float grasas;
     private float carbos;

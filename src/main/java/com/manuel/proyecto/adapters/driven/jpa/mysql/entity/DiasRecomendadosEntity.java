@@ -3,22 +3,23 @@ package com.manuel.proyecto.adapters.driven.jpa.mysql.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name = "dias")
+@Table(name = "dias_recomendados")
 @Getter
 @Setter
-public class DiaEntity {
+@ToString
+public class DiasRecomendadosEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idDia;
-    private int idUsuario;
-    private int dia;
+    private int id_dias_recomendados;
+    private int usuario;
     private float aguas;
     private float grasas;
-    private float carbos;
     private float proteinas;
-    private boolean esRecomendado;
-
+    private float carbos;
+    private int dia;
+    private int mes;
 }
