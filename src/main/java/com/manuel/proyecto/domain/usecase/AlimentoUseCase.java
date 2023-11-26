@@ -47,6 +47,11 @@ public class AlimentoUseCase implements IAlimentoServicePort {
         return diasRecomendados;
     }
 
+    @Override
+    public List<Alimento> obtenerAlimentos() {
+        return alimentoPersistencePort.obtenerAlimentos();
+    }
+
     public void guardarAlimentoUsuario(String nombre, int idUsuario, int mes, int dia){
         alimentoPersistencePort.guardarAlimentoUsuario(nombre,idUsuario,mes,dia);
     }
@@ -171,7 +176,7 @@ public class AlimentoUseCase implements IAlimentoServicePort {
                                                               String variable
     ){
         DiasRecomendados dia = recomendado;
-        List<DiasRecomendados> nuevosDiasRecomendados = diasRecomendados;
+        List<DiasRecomendados> nuevosDiasRecomendados = convertirAMutable(diasRecomendados);
         float diferencia = obtenerVariableDiaRecomendado(recomendado,variable) - obtenerVariableDia(input,variable);
         int diaRecomendado = diasRecomendados.indexOf(recomendado);
         while(diferencia!=0){

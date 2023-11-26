@@ -18,4 +18,9 @@ public class AlimentoHandlerImpl implements IAlimentoHandler {
     public List<DiasRecomendados> obtenerAlimento(List<String> nombres, int idUsuario, int mes, int dia) {
         return aliemntoServicePort.obtenerInformacion(nombres,idUsuario,mes,dia);
     }
+
+    @Override
+    public List<Alimento> obtenerAlimentos() {
+        return aliemntoServicePort.obtenerAlimentos();
+    }
 }

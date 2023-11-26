@@ -57,6 +57,12 @@ public class DiaUseCase implements IDiaServicePort {
     public List<DiasRecomendados> obtenerDiasRecomendados(int idUsuario, int mes) {
         return diaPersistencePort.obtenerDiasRecomendados(idUsuario,mes);
     }
+
+    @Override
+    public List<Dia> obtenerDias(int idUsuario, int mes) {
+        return diaPersistencePort.obtenerDiasIngresados(idUsuario, mes);
+    }
+
     private void guardarDiasRecomendados(List<DiasRecomendados> diasRecomendados){
         diaPersistencePort.guardarDiasRecomendados(diasRecomendados);
     }

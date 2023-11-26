@@ -3,6 +3,14 @@ spring:
     url: jdbc:mysql://localhost/db_estructuras
     username: root
     password: 1234
+  cors:
+    allowed-origins:
+      - "http://localhost:5173"
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
 jpa:
   hibernate:
     ddl-auto: create

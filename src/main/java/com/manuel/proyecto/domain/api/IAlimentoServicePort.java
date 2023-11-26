@@ -8,4 +8,5 @@ import java.util.List;
 public interface IAlimentoServicePort {
 
     List<DiasRecomendados> obtenerInformacion(List<String> nombre, int idUsuario, int mes, int dia);
+    List<Alimento> obtenerAlimentos();
 }

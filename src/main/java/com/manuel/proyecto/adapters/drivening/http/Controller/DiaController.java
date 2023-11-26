@@ -3,6 +3,7 @@ package com.manuel.proyecto.adapters.drivening.http.Controller;
 import com.manuel.proyecto.adapters.drivening.http.Dto.DiaDto;
 import com.manuel.proyecto.adapters.drivening.http.Dto.UsuarioDto;
 import com.manuel.proyecto.adapters.drivening.http.Handlers.IDiaHandler;
+import com.manuel.proyecto.domain.model.Dia;
 import com.manuel.proyecto.domain.model.DiasRecomendados;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,9 @@ public class DiaController {
     @GetMapping("/obtener-recomendados")
     public List<DiasRecomendados> obtenerRecomendados(@RequestParam("idUsuario") int idUsuario, @RequestParam("mes") int mes){
         return diaHandler.obtenerDiasRecomendados(idUsuario, mes);
+    }
+    @GetMapping("/obtener-dias")
+    public List<Dia> obtenerDias(@RequestParam("idUsuario") int idUsuario, @RequestParam("mes") int mes){
+        return diaHandler.obtenerDias(idUsuario, mes);
     }
 }

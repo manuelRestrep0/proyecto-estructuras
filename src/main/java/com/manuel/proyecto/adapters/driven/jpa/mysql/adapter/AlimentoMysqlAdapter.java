@@ -12,6 +12,8 @@ import com.manuel.proyecto.domain.model.Dia;
 import com.manuel.proyecto.domain.spi.AlimentoPersistencePort;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 public class AlimentoMysqlAdapter implements AlimentoPersistencePort {
@@ -49,5 +51,10 @@ public class AlimentoMysqlAdapter implements AlimentoPersistencePort {
         totalDiarioUsuario.setTotal_grasas(totalDiarioUsuario.getTotal_grasas()+ diaActualizado.getTotal_grasas());
         totalDiarioUsuario.setTotal_proteinas(totalDiarioUsuario.getTotal_proteinas()+diaActualizado.getTotal_proteinas());
         totalDiarioUsuarioRepository.save(totalDiarioUsuario);
+    }
+
+    @Override
+    public List<Alimento> obtenerAlimentos() {
+        return alimentoRepository.findAll().stream().map(alimentoEntityMapper::toAlimento).toList();
     }
 }

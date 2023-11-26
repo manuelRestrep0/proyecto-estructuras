@@ -2,6 +2,7 @@ package com.manuel.proyecto.adapters.drivening.http.Handlers.impl;
 
 import com.manuel.proyecto.adapters.drivening.http.Handlers.IDiaHandler;
 import com.manuel.proyecto.domain.api.IDiaServicePort;
+import com.manuel.proyecto.domain.model.Dia;
 import com.manuel.proyecto.domain.model.DiasRecomendados;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,10 @@ public class DiaHandlerImpl implements IDiaHandler {
     @Override
     public List<DiasRecomendados> obtenerDiasRecomendados(int idUsuario, int mes) {
         return diaServicePort.obtenerDiasRecomendados(idUsuario, mes);
+    }
+
+    @Override
+    public List<Dia> obtenerDias(int idUsuario, int mes) {
+        return diaServicePort.obtenerDias(idUsuario, mes);
     }
 }
